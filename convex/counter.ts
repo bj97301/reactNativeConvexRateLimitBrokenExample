@@ -26,7 +26,10 @@ export const increment = mutation({
   args: {},
   handler: async (ctx) => {
     // Check rate limit
-    const status = await rateLimiter.limit(ctx, "increment");
+    const status = await rateLimiter.limit(ctx, "increment", {
+      // throws: true,
+    });
+    console.log("status: 1111111111111111111111111111111111: " + status.ok);
     if (!status.ok) {
       throw new Error(
         `Rate limit exceeded. Try again in ${Math.ceil(status.retryAfter / 1000)} seconds`
