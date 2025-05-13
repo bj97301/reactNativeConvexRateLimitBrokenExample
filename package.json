@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@convex-dev/rate-limiter": "^0.2.6",
     "convex": "^1.24.1",
     "expo": "~53.0.9",
     "expo-status-bar": "~2.2.3",
