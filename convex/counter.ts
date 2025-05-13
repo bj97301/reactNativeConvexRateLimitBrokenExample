@@ -1,13 +1,14 @@
-import { RateLimiter } from "@convex-dev/rate-limiter";
+import { MINUTE, RateLimiter } from "@convex-dev/rate-limiter";
 import { components } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 
 // Initialize rate limiter with 5 requests per 30 seconds
 const rateLimiter = new RateLimiter(components.rateLimiter, {
   increment: {
-    kind: "fixed window",
+    kind: "token bucket",
     rate: 5,
-    period: 30 * 1000, // 30 seconds in milliseconds
+    period: MINUTE,
+    capacity: 5,
   },
 });
 
