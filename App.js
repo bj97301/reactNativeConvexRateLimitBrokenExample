@@ -1,16 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { ConvexProvider, useQuery, useMutation } from "convex/react";
+import { ConvexReactClient } from "convex/react";
+import { api } from "./convex/_generated/api";
 
-export default function App() {
-  const [count, setCount] = useState(0);
+// Initialize the Convex client
+const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL);
+
+function Counter() {
+  const count = useQuery(api.counter.get);
+  const increment = useMutation(api.counter.increment);
+
+  if (count === undefined) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Counter: {count}</Text>
-      <Pressable style={styles.button} onPress={() => setCount(count + 1)}>
+      <Pressable style={styles.button} onPress={() => increment()}>
         <Text style={styles.buttonText}>Increment</Text>
       </Pressable>
     </View>
+  );
+}
+
+export default function App() {
+  return (
+    <ConvexProvider client={convex}>
+      <Counter />
+    </ConvexProvider>
   );
 }
 
