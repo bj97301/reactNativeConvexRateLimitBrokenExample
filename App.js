@@ -1,24 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
 
-export default function CounterScreen() {
-  const count = useQuery(api.counter.get);
-  const increment = useMutation(api.counter.increment);
-
-  if (count === undefined) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+export default function App() {
+  const [count, setCount] = useState(0);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Counter: {count}</Text>
-      <Pressable style={styles.button} onPress={() => increment()}>
+      <Pressable style={styles.button} onPress={() => setCount(count + 1)}>
         <Text style={styles.buttonText}>Increment</Text>
       </Pressable>
     </View>
